@@ -2,7 +2,7 @@
   "name": "electron-spike",
   "description": "Boilerplate for electron/react/redux/react-router apps.",
   "author": "Matthew Stagg",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "repository": "https://github.com/mstagg/Electron-React-Spike.git",
   "dependencies": {
