@@ -5,7 +5,7 @@ export function increment(inc) {
   return {
     type: INCREMENT_COUNTER,
     payload: {
-      inc
-    }
+      inc,
+    },
   };
 }

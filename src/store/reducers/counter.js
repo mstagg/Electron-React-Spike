@@ -1,4 +1,4 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../actions/counter';
+import { INCREMENT_COUNTER } from '../actions/counter';
 
 const initialState = {
   counter: 0,
@@ -6,15 +6,15 @@ const initialState = {
 };
 
 const handleIncrement = (state, payload) => {
-  const newCounter = state.counter + payload.inc
-  if(newCounter > 10) {
-    return Object.assign({}, state, {error: 'Cannot count past 10!'});
-  } else if(newCounter < 0) {
-    return Object.assign({}, state, {error: 'Cannot count below 0!'});
-  } else {
-    return Object.assign({}, state, {counter: newCounter, error: null});
+  const newCounter = state.counter + payload.inc;
+  if (newCounter > 10) {
+    return Object.assign({}, state, { error: 'Cannot count past 10!' });
   }
-}
+  if (newCounter < 0) {
+    return Object.assign({}, state, { error: 'Cannot count below 0!' });
+  }
+  return Object.assign({}, state, { counter: newCounter, error: null });
+};
 
 export default function counter(state = initialState, action) {
   switch (action.type) {
