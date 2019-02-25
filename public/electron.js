@@ -1,4 +1,5 @@
 const electron = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
+const { autoUpdater } = require('electron-updater');
 
 const { app } = electron;
 const { BrowserWindow } = electron;
@@ -8,11 +9,6 @@ const isDev = require('electron-is-dev');
 
 let mainWindow;
 
-require('update-electron-app')({
-  repo: 'mstagg/Electron-React-Spike',
-  updateInterval: '1 hour',
-});
-
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 900, height: 680, icon: `${__dirname}/app-icon.png` });
   mainWindow.loadURL(
@@ -21,6 +17,7 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`,
   );
   mainWindow.on('closed', () => (mainWindow = null)); // eslint-disable-line no-return-assign
+  autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.on('ready', createWindow);
