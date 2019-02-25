@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom'
-import Header from '../global/Header/HeaderComponent';
+import * as CounterActions from '../../store/actions/counter';
 import PropTypes from 'prop-types';
 
 import './styles.scss';
+import Header from '../../components/Header/HeaderComponent';
 import {
   Container,
   Row,
@@ -54,4 +57,16 @@ CounterScreen.propTypes = {
   increment: PropTypes.func.isRequired
 }
 
-export default CounterScreen;
+export default connect(
+  // mapStateToProps
+  (state) => {
+    return {
+      amount: state.counter.counter,
+      error: state.counter.error
+    };
+  },
+  // mapDispatchToProps
+  (dispatch) => {
+    return bindActionCreators(CounterActions, dispatch);
+  }
+)(CounterScreen);

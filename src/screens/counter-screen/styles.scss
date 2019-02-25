@@ -1,9 +1,13 @@
-@import '../global/styles.scss';
+@import '../../common/less/styles.scss';
 
-.landing-screen {
+.counter-screen {
     .logo {
         width: 25%;
         animation:spin 4s linear infinite;
+    }
+
+    .error {
+        color: red;
     }
 }
 

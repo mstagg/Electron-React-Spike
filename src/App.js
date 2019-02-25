@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { configureStore, history } from './store'
 import { Switch, Route } from 'react-router';
-import LandingScreen from './containers/LandingPageContainer';
-import CounterScreen from './containers/CounterPageContainer';
+import LandingScreen from './screens/landing-screen/LandingScreenComponent';
+import CounterScreen from './screens/counter-screen/CounterScreenComponent';
 
 const store = configureStore();
 

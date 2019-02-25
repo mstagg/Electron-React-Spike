@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../global/Header/HeaderComponent'
 
-import logo from '../../static/logo.svg';
 import './styles.scss';
+import Header from '../../components/Header/HeaderComponent';
+import logo from '../../static/logo.svg';
 import {
   Button
 } from 'reactstrap';
