@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Switch, Route } from 'react-router';
 import { configureStore, history } from './store';
+import routes from './common/js/routes';
 import LandingScreen from './screens/landing-screen/LandingScreenComponent';
 import CounterScreen from './screens/counter-screen/CounterScreenComponent';
 
@@ -12,8 +13,8 @@ const App = () => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
-        <Route exact path="/" component={LandingScreen} />
-        <Route path="/counter" component={CounterScreen} />
+        <Route exact path={routes.HOME} component={LandingScreen} />
+        <Route path={routes.COUNTER} component={CounterScreen} />
       </Switch>
     </ConnectedRouter>
   </Provider>

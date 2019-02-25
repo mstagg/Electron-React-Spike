@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Counter",
+  "name": "Counter App - Electron Example",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "app-icon.png",
       "sizes": "192x192",
       "type": "image/png"
     }

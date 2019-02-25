@@ -1,3 +1,4 @@
+import './styles.scss';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,10 +11,9 @@ import {
   Button,
   ButtonGroup,
 } from 'reactstrap';
+import routes from '../../common/js/routes';
 import * as CounterActions from '../../store/actions/counter';
 import Header from '../../components/Header/HeaderComponent';
-
-import './styles.scss';
 
 const CounterScreen = (props) => {
   const { amount, error, increment } = props;
@@ -21,6 +21,7 @@ const CounterScreen = (props) => {
     <div className="counter-screen">
       <Header />
       <Container className="margin-top-small">
+        <p className="center-text">Use the buttons below to count to 10.</p>
         <Row>
           <Col sm={6} className="center-text center-vertical">
             <ButtonGroup>
@@ -43,7 +44,7 @@ const CounterScreen = (props) => {
             : null
         }
         <div className="center-text margin-top-medium">
-          <Link to="/"><Button>Go Back</Button></Link>
+          <Link to={routes.HOME}><Button>Go Back</Button></Link>
         </div>
       </Container>
     </div>
