@@ -1,0 +1,14 @@
+@import '../global/styles.scss';
+
+.counter-screen {
+    .logo {
+        width: 25%;
+        animation:spin 4s linear infinite;
+    }
+
+    .error {
+        color: red;
+    }
+}
+
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

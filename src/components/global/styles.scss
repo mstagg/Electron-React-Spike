@@ -1,0 +1,22 @@
+$brandBlue: #47848F;
+
+.center {
+    &-text {
+        text-align: center;
+    }
+    &-vertical {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}
+
+.margin {
+    &-top {
+        &-small {
+            margin-top: 20px;
+        }
+        &-medium {
+            margin-top: 40px;
+        }
+    }
+}
