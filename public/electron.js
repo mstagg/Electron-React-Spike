@@ -1,8 +1,11 @@
 const electron = require('electron'); // eslint-disable-line import/no-extraneous-dependencies
 const { autoUpdater } = require('electron-updater');
 
-const { app } = electron;
-const { BrowserWindow } = electron;
+const {
+  app,
+  BrowserWindow,
+  dialog,
+} = electron;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
@@ -17,10 +20,12 @@ function createWindow() {
       : `file://${path.join(__dirname, '../build/index.html')}`,
   );
   mainWindow.on('closed', () => (mainWindow = null)); // eslint-disable-line no-return-assign
-  autoUpdater.checkForUpdatesAndNotify();
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  autoUpdater.checkForUpdatesAndNotify();
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -32,4 +37,18 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => { // eslint-disable-line no-unused-vars
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'New Version Available',
+    message: 'A new version has been downloaded. Restart the application to apply the updates.',
+    detail: 'A new version has been downloaded.',
+  };
+
+  dialog.showMessageBox(dialogOpts, (response) => {
+    if (response === 0) autoUpdater.quitAndInstall();
+  });
 });
