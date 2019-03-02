@@ -40,6 +40,10 @@
     "wait-on": "3.2.0"
   },
   "build": {
+    "win": {
+      "target": "NSIS",
+      "icon": "./build/icon.png"
+    },
     "publish": {
       "provider": "github"
     }

@@ -15,41 +15,61 @@ import routes from '../../common/js/routes';
 import * as CounterActions from '../../store/actions/counter';
 import Header from '../../components/Header/HeaderComponent';
 
-const CounterScreen = (props) => {
-  const { amount, error, increment } = props;
-  return (
-    <div className="counter-screen">
-      <Header />
-      <Container className="margin-top-small">
-        <p className="center-text">Use the buttons below to count to 10.</p>
-        <Row>
-          <Col sm={6} className="center-text center-vertical">
-            <ButtonGroup>
-              <Button color="primary" onClick={() => increment(1)}>Add 1</Button>
-              <Button color="primary" onClick={() => increment(5)}>Add 5</Button>
-              <Button color="danger" onClick={() => increment(-1)}>Subtract 1</Button>
-            </ButtonGroup>
-          </Col>
-          <Col sm={6} className="center-text center-vertical">
-            <h1>{amount}</h1>
-          </Col>
-        </Row>
-        {
-          (error)
-            ? (
-              <div className="center-text error">
-                {error}
-              </div>
-            )
-            : null
-        }
-        <div className="center-text margin-top-medium">
-          <Link to={routes.HOME}><Button>Go Back</Button></Link>
-        </div>
-      </Container>
-    </div>
-  );
-};
+const electron = window.require('electron');
+// console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+
+// ipcRenderer.on('asynchronous-reply', (event, arg) => {
+//   console.log(arg) // prints "pong"
+// })
+// ipcRenderer.send('asynchronous-message', 'ping')
+
+/* eslint-disable class-methods-use-this */
+class CounterScreen extends React.Component {
+  openDisplayWindow() {
+    // const fs = electron.remote.require('fs'); // eslint-disable-line
+    const { ipcRenderer } = electron;
+    ipcRenderer.send('display-window', 'open');
+  }
+
+  render() {
+    const { amount, error, increment } = this.props;
+    return (
+      <div className="counter-screen">
+        <Header />
+        <Container className="margin-top-small">
+          <p className="center-text">Use the buttons below to count to 10.</p>
+          <Row>
+            <Col sm={6} className="center-text center-vertical">
+              <ButtonGroup>
+                <Button color="primary" onClick={() => increment(1)}>Add 1</Button>
+                <Button color="primary" onClick={() => increment(5)}>Add 5</Button>
+                <Button color="danger" onClick={() => increment(-1)}>Subtract 1</Button>
+              </ButtonGroup>
+            </Col>
+            <Col sm={6} className="center-text center-vertical">
+              <h1>{amount}</h1>
+            </Col>
+          </Row>
+          {
+            (error)
+              ? (
+                <div className="center-text error">
+                  {error}
+                </div>
+              )
+              : null
+          }
+          <div className="center-text margin-top-medium">
+            <Button onClick={() => this.openDisplayWindow()}>Display Window</Button>
+          </div>
+          <div className="center-text margin-top-medium">
+            <Link to={routes.HOME}><Button>Go Back</Button></Link>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+}
 
 CounterScreen.propTypes = {
   amount: PropTypes.number.isRequired,

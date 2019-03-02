@@ -5,26 +5,42 @@ const {
   app,
   BrowserWindow,
   dialog,
+  ipcMain,
 } = electron;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-let mainWindow;
+let mainWindow = null;
+let displayWindow = null;
 
-function createWindow() {
-  mainWindow = new BrowserWindow({ width: 900, height: 680, icon: `${__dirname}/app-icon.png` });
+function createMainWindow() {
+  mainWindow = new BrowserWindow({ width: 900, height: 680, icon: path.join(__dirname, 'icon.png') });
   mainWindow.loadURL(
     isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`,
+      ? 'http://localhost:3000?window=main'
+      : `file://${path.join(__dirname, '../build/index.html?window=main')}`,
   );
-  mainWindow.on('closed', () => (mainWindow = null)); // eslint-disable-line no-return-assign
+  mainWindow.on('closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
+}
+
+function createDisplayWindow() {
+  displayWindow = new BrowserWindow({ width: 400, height: 400, icon: path.join(__dirname, 'icon.png') });
+  displayWindow.loadURL(
+    isDev
+      ? 'http://localhost:3000?window=display'
+      : `file://${path.join(__dirname, '../build/index.html?window=display')}`,
+  );
+  displayWindow.on('closed', () => (displayWindow = null)); // eslint-disable-line no-return-assign
 }
 
 app.on('ready', () => {
   autoUpdater.checkForUpdatesAndNotify();
-  createWindow();
+  createMainWindow();
 });
 
 app.on('window-all-closed', () => {
@@ -35,11 +51,17 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow();
+    createMainWindow();
   }
 });
 
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => { // eslint-disable-line no-unused-vars
+ipcMain.on('display-window', () => {
+  if (displayWindow === null) {
+    createDisplayWindow();
+  }
+});
+
+autoUpdater.on('update-downloaded', () => {
   const dialogOpts = {
     type: 'info',
     buttons: ['Restart', 'Later'],
