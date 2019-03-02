@@ -4,8 +4,6 @@ export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 export function increment(inc) {
   return {
     type: INCREMENT_COUNTER,
-    payload: {
-      inc,
-    },
+    payload: inc,
   };
 }

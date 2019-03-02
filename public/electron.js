@@ -55,9 +55,22 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('display-window', () => {
+ipcMain.on('display-window', (event) => {
   if (displayWindow === null) {
     createDisplayWindow();
+    event.returnValue = 'Display window opened'; // eslint-disable-line no-param-reassign
+  } else {
+    event.returnValue = 'Display window already exists'; // eslint-disable-line no-param-reassign
+  }
+});
+
+ipcMain.on('fetch-counter', (event, val) => {
+  mainWindow.webContents.send('amount-requested', val);
+});
+
+ipcMain.on('update-counter', (event, val) => {
+  if (displayWindow !== null) {
+    displayWindow.webContents.send('update-display-count', val);
   }
 });
 

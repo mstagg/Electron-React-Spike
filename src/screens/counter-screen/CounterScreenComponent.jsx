@@ -16,19 +16,19 @@ import * as CounterActions from '../../store/actions/counter';
 import Header from '../../components/Header/HeaderComponent';
 
 const electron = window.require('electron');
-// console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-
-// ipcRenderer.on('asynchronous-reply', (event, arg) => {
-//   console.log(arg) // prints "pong"
-// })
-// ipcRenderer.send('asynchronous-message', 'ping')
+const { ipcRenderer } = electron;
 
 /* eslint-disable class-methods-use-this */
 class CounterScreen extends React.Component {
+  componentDidMount() {
+    ipcRenderer.on('amount-requested', () => {
+      const { amount } = this.props;
+      ipcRenderer.send('update-counter', amount);
+    });
+  }
+
   openDisplayWindow() {
-    // const fs = electron.remote.require('fs'); // eslint-disable-line
-    const { ipcRenderer } = electron;
-    ipcRenderer.send('display-window', 'open');
+    ipcRenderer.sendSync('display-window', 'open');
   }
 
   render() {

@@ -1,28 +1,36 @@
 import './styles.scss';
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import Header from '../../components/Header/HeaderComponent';
 
-const DisplayScreen = (props) => {
-  const { amount } = props;
-  return(
-    <div className="landing-screen">
-      <Header />
-      <div className="center-text margin-top-small">
-        <p>{amount}</p>
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
+
+class DisplayScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    ipcRenderer.send('fetch-counter', 'fetch');
+    this.state = {
+      amount: 0,
+    };
+  }
+
+  componentDidMount() {
+    ipcRenderer.on('update-display-count', (event, val) => {
+      this.setState({ amount: val });
+    });
+  }
+
+  render() {
+    const { amount } = this.state;
+    return (
+      <div className="landing-screen">
+        <Header />
+        <div className="center-text margin-top-small">
+          <h1>{amount}</h1>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-DisplayScreen.propTypes = {
-  amount: PropTypes.number.isRequired,
-};
-
-export default connect(
-  // mapStateToProps
-  state => ({
-    amount: state.counter.counter,
-  }),
-)(DisplayScreen);
+export default DisplayScreen;
